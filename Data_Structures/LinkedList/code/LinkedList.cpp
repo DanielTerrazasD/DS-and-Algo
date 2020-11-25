@@ -271,11 +271,6 @@ void SinglyLinkedList::Reverse(void)
     head = reverse;
 }
 
-void SinglyLinkedList::Sort(void)
-{
-    /** TODO:*/
-}
-
 /************************ Circular Singly Linked List ************************/
 CircularSinglyLinkedList::CircularSinglyLinkedList()
 {
@@ -475,11 +470,6 @@ void CircularSinglyLinkedList::Reverse(void)
     tail->next = head;
 }
 
-void CircularSinglyLinkedList::Sort(void)
-{
-    /** TODO:*/
-}
-
 /**************************** Doubly Linked List *****************************/
 DoublyLinkedList::DoublyLinkedList()
 {
@@ -674,11 +664,6 @@ void DoublyLinkedList::Reverse(void)
     tmp = head;
     head = tail;
     tail = tmp;
-}
-
-void DoublyLinkedList::Sort(void)
-{
-    /** TODO:*/
 }
 
 /************************ Circular Doubly Linked List ************************/
