@@ -90,28 +90,115 @@ Queue::Queue()
 
 Queue::Queue(int array[], int size)
 {
+    Node* tmp;
     front = rear = nullptr;
+
+    if (array == nullptr) return;
+    if (size <= 0) return;
+
+    front = new Node(array[0]);
+    rear = front;
+
+    for (int i = 1; i < size; i++)
+    {
+        tmp = new Node(array[i]);
+        rear->next = tmp;
+        rear = tmp;
+    }
 }
 
 Queue::~Queue()
 {
+    Node* ptr = front;
 
+    while (front != nullptr)
+    {
+        front = front->next;
+        delete ptr;
+        ptr = front;
+    }
 }
 
-/****************************** Circular Queue *******************************/
-CircularQueue::CircularQueue()
+void Queue::Create(int array[], int size)
 {
-    front = rear = nullptr;
+    Node* tmp;
+
+    if (front != nullptr || rear != nullptr) return;
+    if (array == nullptr) return;
+    if (size <= 0) return;
+
+    front = new Node(array[0]);
+    rear = front;
+
+    for (int i = 1; i < size; i++)
+    {
+        tmp = new Node(array[i]);
+        rear->next = tmp;
+        rear = tmp;
+    }
 }
 
-CircularQueue::CircularQueue(int array[], int size)
+void Queue::Display(void)
 {
-    front = rear = nullptr;
+    Node* ptr = front;
+
+    if (front == nullptr)
+    {
+        std::cout << "null" << std::endl;
+        return;
+    }
+
+    std::cout << "front -> ";
+    while (ptr != nullptr)
+    {
+        std::cout << ptr->data << " -> ";
+        ptr = ptr->next;
+    }
+    std::cout << "rear" << std::endl;
 }
 
-CircularQueue::~CircularQueue()
+void Queue::Enqueue(int item)
 {
+    Node* tmp = new Node(item);
 
+    if (rear == nullptr)
+    {
+        front = rear = tmp;
+    }
+    else
+    {
+        rear->next = tmp;
+        rear = tmp;
+    }
+}
+
+void Queue::Dequeue(void)
+{
+    Node* ptr = front;
+
+    if (front == nullptr) return;
+    if (front == rear)
+        rear = rear->next;
+
+    front = front->next;
+    delete ptr;
+}
+
+int Queue::GetFront(void)
+{
+    if (front == nullptr) return -1;
+    return front->data;
+}
+
+int Queue::GetRear(void)
+{
+    if (rear == nullptr) return -1;
+    return rear->data;
+}
+
+bool Queue::IsEmpty(void)
+{
+    return front == nullptr;
 }
 
 /**************************** Double Ended Queue *****************************/
@@ -122,29 +209,277 @@ DEQueue::DEQueue()
 
 DEQueue::DEQueue(int array[], int size)
 {
+    Node* tmp;
+
     front = rear = nullptr;
+
+    if (array == nullptr) return;
+    if (size <= 0) return;
+
+    front = new Node(array[0]);
+    rear = front;
+
+    for (int i = 1; i < size; i++)
+    {
+        tmp = new Node(array[i]);
+        rear->next = tmp;
+        rear = tmp;
+    }
 }
 
 DEQueue::~DEQueue()
 {
+    Node* ptr = front;
 
+    while (ptr != nullptr)
+    {
+        front = front->next;
+        delete ptr;
+        ptr = front;
+    }
+}
+
+void DEQueue::Create(int array[], int size)
+{
+    Node* tmp;
+
+    if (front != nullptr || rear != nullptr) return;
+    if (array == nullptr) return;
+    if (size <= 0) return;
+
+    front = new Node(array[0]);
+    rear = front;
+
+    for (int i = 1; i < size; i++)
+    {
+        tmp = new Node(array[i]);
+        rear->next = tmp;
+        rear = tmp;
+    }
+}
+
+void DEQueue::Display(void)
+{
+    Node* ptr = front;
+
+    if (front == nullptr)
+    {
+        std::cout << "null" << std::endl;
+        return;
+    }
+
+    std::cout << "front -> ";
+    while (ptr != nullptr)
+    {
+        std::cout << ptr->data << " -> ";
+        ptr = ptr->next;
+    }
+    std::cout << "rear" << std::endl;
+
+}
+
+void DEQueue::EnqueueFront(int item)
+{
+    Node* tmp = new Node(item);
+    tmp->next = front;
+    front = tmp;
+
+    if(rear == nullptr)
+        rear = front;
+}
+
+void DEQueue::EnqueueRear(int item)
+{
+    Node* tmp = new Node(item);
+
+    if (rear == nullptr)
+    {
+        front = rear = tmp;
+    }
+    else
+    {
+        rear->next = tmp;
+        rear = tmp;
+    }
+}
+
+void DEQueue::DequeueFront(void)
+{
+    Node* ptr = front;
+
+    if (front == nullptr) return;
+    if (rear == front)
+        rear = rear->next;
+
+    front = front->next;
+    delete ptr;
+}
+
+void DEQueue::DequeueRear(void)
+{
+    Node* ptr = front;
+
+    if (front == nullptr) return;
+    if (rear == front)
+    {
+        front = rear = nullptr;
+        delete ptr;
+    }
+    else
+    {
+        while (ptr->next != rear)
+        {
+            ptr = ptr->next;
+        }
+
+        rear = ptr;
+        rear->next = nullptr;
+        delete ptr->next;
+    }
+}
+
+int DEQueue::GetFront(void)
+{
+    if (front == nullptr) return -1;
+    return front->data;
+}
+
+int DEQueue::GetRear(void)
+{
+    if (rear == nullptr) return -1;
+    return rear->data;
+}
+
+bool DEQueue::IsEmpty(void)
+{
+    return front == nullptr;
 }
 
 /****************************** Priority Queue *******************************/
 PriorityQueue::PriorityQueue()
 {
     front = rear = nullptr;
+    priority = false;
 }
 
-PriorityQueue::PriorityQueue(int array[], int size)
+PriorityQueue::PriorityQueue(int array[], int size, bool priority)
 {
+
     front = rear = nullptr;
+    this->priority = priority;
+
+    if (front != nullptr) return;
+    if (array == nullptr) return;
+    if (size <= 0) return;
+
+    front = new Node(array[0]);
+    rear = front;
+
+    for (int i = 1; i < size; i++)
+    {
+        Enqueue(array[i]);
+    }
 }
 
 PriorityQueue::~PriorityQueue()
 {
+    Node* ptr = front;
 
+    while (front != nullptr)
+    {
+        front = front->next;
+        delete ptr;
+        ptr = front;
+    }
 }
+
+void PriorityQueue::Display(void)
+{
+    Node* ptr = front;
+
+    if (front == nullptr)
+    {
+        std::cout << "null" << std::endl;
+        return;
+    }
+
+    std::cout << "front -> ";
+    while (ptr != nullptr)
+    {
+        std::cout << ptr->data << " -> ";
+        ptr = ptr->next;
+    }
+    std::cout << "rear" << std::endl;
+}
+
+void PriorityQueue::Enqueue(int item)
+{
+    Node* tmp, * aux_ptr, * ptr;
+    ptr = aux_ptr = front;
+
+    tmp = new Node(item);
+
+    if (priority == false)
+    {
+        while (ptr !=nullptr && item > ptr->data)
+        {
+            aux_ptr = ptr;
+            ptr = ptr->next;
+        }
+    }
+    else
+    {
+        while (ptr !=nullptr && item < ptr->data)
+        {
+            aux_ptr = ptr;
+            ptr = ptr->next;
+        }
+    }
+
+    if (ptr == front)
+    {
+        tmp->next = front;
+        front = tmp;
+    }
+    else
+    {
+        tmp->next = aux_ptr->next;
+        aux_ptr->next = tmp;
+
+        if (aux_ptr == rear)
+            rear = tmp;
+    }
+}
+
+void PriorityQueue::Dequeue(void)
+{
+    Node* ptr = front;
+
+    if (front == nullptr) return;
+    if (front == rear)
+        rear = rear->next;
+
+    front = front->next;
+    delete ptr;
+}
+
+int PriorityQueue::GetFront(void)
+{
+    if (front == nullptr) return -1;
+    return front->data;
+}
+
+int PriorityQueue::GetRear(void)
+{
+    if (rear == nullptr) return -1;
+    return rear->data;
+}
+
+bool PriorityQueue::IsEmpty(void)
+{
+    return front == nullptr;
+}
+
 
 /*****************************************************************************/
 /**                                END OF FILE                              **/

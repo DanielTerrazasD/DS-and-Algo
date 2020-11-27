@@ -74,7 +74,6 @@ public:
 
     Node();
     Node(int x);
-
 };
 
 class Queue
@@ -88,19 +87,15 @@ public:
     Queue();
     Queue(int array[], int size);
     ~Queue();
-};
 
-class CircularQueue
-{
-private:
-    Node* front;
-    Node* rear;
-    
-public:
+    void Create(int array[], int size);
+    void Display(void);
+    void Enqueue(int item);
+    void Dequeue(void);
 
-    CircularQueue();
-    CircularQueue(int array[], int size);
-    ~CircularQueue();
+    int GetFront(void);
+    int GetRear(void);
+    bool IsEmpty(void);
 };
 
 /* Double Ended Queue */
@@ -115,6 +110,17 @@ public:
     DEQueue();
     DEQueue(int array[], int size);
     ~DEQueue();
+
+    void Create(int array[], int size);
+    void Display(void);
+    void EnqueueFront(int item);
+    void EnqueueRear(int item);
+    void DequeueFront(void);
+    void DequeueRear(void);
+
+    int GetFront(void);
+    int GetRear(void);
+    bool IsEmpty(void);
 };
 
 class PriorityQueue
@@ -122,11 +128,21 @@ class PriorityQueue
 private:
     Node* front;
     Node* rear;
+    bool priority;
 
 public:
     PriorityQueue();
-    PriorityQueue(int array[], int size);
+    PriorityQueue(int array[], int size, bool priority=false);
     ~PriorityQueue();
+
+    void Create(int array[], int size);
+    void Display(void);
+    void Enqueue(int item);
+    void Dequeue(void);
+
+    int GetFront(void);
+    int GetRear(void);
+    bool IsEmpty(void);
 };
 
 

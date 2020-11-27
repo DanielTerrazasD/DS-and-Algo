@@ -38,6 +38,7 @@
 /**                                  Includes                               **/
 /*****************************************************************************/
 
+#include <iostream>
 #include "Queue.hpp"
 
 /*****************************************************************************/
@@ -70,9 +71,11 @@
 
 int main(int argc, char const* argv[])
 {
-    int array[] = { 10, 11, 12, 13, 14 };
+    int array[] = { 20, 30, 10, 50, 40 };
     int size = sizeof(array) / sizeof(array[0]);
 
+    PriorityQueue q(array, size, true);
+    q.Display();
 
     return 0;
 }
