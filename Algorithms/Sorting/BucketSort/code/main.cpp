@@ -1,0 +1,103 @@
+﻿/*****************************************************************************/
+/** Copyright (c) 2021, Daniel Terrazas                                     **/
+/** ----------------------------------------------------------------------- **/
+/**                                Algorithms                               **/
+/** ----------------------------------------------------------------------- **/
+/** FILE: main.cpp                                                          **/
+/** ----------------------------------------------------------------------- **/
+/** DESCRIPTION:                                                            **/
+/** main.cpp description.                                                   **/
+/** ----------------------------------------------------------------------- **/
+/**                                                                         **/
+/** Permission is hereby granted, free of charge, to any person obtaining a **/
+/** copy of this software and associated documentation files                **/
+/** (the "Software") to deal in the Software without restriction, including **/
+/** without limitation the rights to use, copy, modify, merge, publish,     **/
+/** distribute, sublicense, and/or sell copies of the Software, and to      **/
+/** permit persons to whom the Software is furnished to do so, subject to   **/
+/** the following conditions:                                               **/
+/**                                                                         **/
+/** The above copyright notice and this permission notice shall be included **/
+/** in all copies or substantial portions of the Software.                  **/
+/**                                                                         **/
+/** THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS **/
+/** OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF              **/
+/** MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  **/
+/** IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY    **/
+/** CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,    **/
+/** TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE       **/
+/** SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.                  **/
+/**                                                                         **/
+/*****************************************************************************/
+
+/*****************************************************************************/
+/**                               Preprocessors                             **/
+/*****************************************************************************/
+
+/*****************************************************************************/
+/**                                  Includes                               **/
+/*****************************************************************************/
+
+#include <iostream>
+#include <vector>
+
+#include "BucketSort.hpp"
+
+/*****************************************************************************/
+/**                                   Macros                                **/
+/*****************************************************************************/
+
+/*****************************************************************************/
+/**                                 Data Types                              **/
+/*****************************************************************************/
+
+/*****************************************************************************/
+/**                                 Constants                               **/
+/*****************************************************************************/
+
+/*****************************************************************************/
+/**                                 Variables                               **/
+/*****************************************************************************/
+
+/*****************************************************************************/
+/**                                  Classes                                **/
+/*****************************************************************************/
+
+/*****************************************************************************/
+/**                            Function Prototypes                          **/
+/*****************************************************************************/
+
+void PrintArray(const std::vector<double> &array);
+
+/*****************************************************************************/
+/**                            Function Definitions                         **/
+/*****************************************************************************/
+
+
+int main(int argc, char const* argv[])
+{
+    std::vector<double> array {0.12, 0.73, 0.09, 0.29, 0.19, 0.55, 0.82, 0.77, 0.23, 0.15};
+
+    // Bucket sort for floating point numbers:
+    BucketSort(array);
+    PrintArray(array);
+
+    return 0;
+}
+
+void PrintArray(const std::vector<double> &array)
+{
+    if (array.size() <= 0) return;
+
+    std::cout << "Result: ";
+    for (auto &&i : array)
+    {
+        std::cout << i << " ";
+    }
+    std::cout << std::endl;
+}
+
+
+/*****************************************************************************/
+/**                                END OF FILE                              **/
+/*****************************************************************************/
