@@ -1,5 +1,5 @@
 /*****************************************************************************/
-/** Copyright (c) 2020, Daniel Terrazas                                     **/
+/** Copyright (c) 2021, Daniel Terrazas                                     **/
 /** ----------------------------------------------------------------------- **/
 /**                              Data Structures                            **/
 /** ----------------------------------------------------------------------- **/
@@ -38,8 +38,7 @@
 /**                                  Includes                               **/
 /*****************************************************************************/
 
-#include <iostream>
-#include "Stack.hpp"
+#include "Stack.h"
 
 /*****************************************************************************/
 /**                                   Macros                                **/
@@ -70,118 +69,105 @@
 /*****************************************************************************/
 
 /************************************ Node ***********************************/
-Node::Node()
+template <typename T>
+Node<T>::Node(T data)
 {
-    data = 0;
-    next = nullptr;
-}
-
-Node::Node(int x)
-{
-    data = x;
-    next = nullptr;
+    this->data = data;
+    next_node = nullptr;
 }
 
 /*********************************** Stack ***********************************/
-Stack::Stack()
+template <typename T>
+Stack<T>::Stack()
 {
-    top = nullptr;
+
 }
 
-Stack::Stack(int array[], int size)
+template <typename T>
+Stack<T>::~Stack()
 {
-    Node* last, * tmp;
-    top = nullptr;
 
-    if (array == nullptr) return;
-    if (size <= 0) return;
+}
 
-    top = new Node(array[0]);
-    last = top;
+template <typename T>
+void Stack<T>::Create(const std::vector<T> &v)
+{
+    size_t size = v.size();
 
-    for (int i = 1; i < size; i++)
+    for (size_t i = 0; i < size; i++)
     {
-        tmp = new Node(array[i]);
-        last->next = tmp;
-        last = tmp;
+        Push(v.at(i));
     }
 }
 
-Stack::~Stack()
+template <typename T>
+void Stack<T>::Display()
 {
-    Node* ptr = top;
-    while (top != nullptr)
+    std::shared_ptr<Node<T>> ptr = top;
+
+    if (ptr == nullptr)
     {
-        top = top->next;
-        delete ptr;
-        ptr = top;
-    }
-}
-
-void Stack::Create(int array[], int size)
-{
-    Node* last, * tmp;
-
-    if (top != nullptr) return;
-    if (array == nullptr) return;
-    if (size <= 0) return;
-
-    top = new Node(array[0]);
-    last = top;
-
-    for (int i = 1; i < size; i++)
-    {
-        tmp = new Node(array[i]);
-        last->next = tmp;
-        last = tmp;
-    }
-}
-
-void Stack::Display(void)
-{
-    Node* ptr = top;
-    if (top == nullptr)
-    {
-        std::cout << "null" << std::endl;
+        std::cout << "Empty" << std::endl;
         return;
     }
 
     std::cout << "Top -> ";
-    while (ptr != nullptr)
+    while (ptr)
     {
         std::cout << ptr->data << " -> ";
-        ptr = ptr->next;
+        ptr = ptr->next_node;
     }
     std::cout << "Bottom" << std::endl;
 }
 
-void Stack::Push(int item)
+template <typename T>
+void Stack<T>::Push(T data)
 {
-    Node* tmp = new Node(item);
-    tmp->next = top;
-    top = tmp;
+    std::shared_ptr<Node<T>> ptr = std::make_shared<Node<T>>(data);
+
+    if (top)
+    {
+        ptr->next_node = top;
+        top = ptr;
+    }
+    else
+    {
+        top = ptr;
+    }
 }
 
-int Stack::Pop(void)
+template <typename T>
+void Stack<T>::Pop()
 {
-    int data = -1;
-    if (IsEmpty()) return -1;
+    if (top)
+    {
+        top = top->next_node;
+    }
+}
 
-    data = top->data;
-    top = top->next;
+template <typename T>
+T Stack<T>::Top() const
+{
+    T data = T();
+
+    if (top)
+    {
+        data = top->data;
+    }
+
     return data;
 }
 
-int Stack::Top(void)
-{
-    if (IsEmpty()) return -1;
-    return top->data;
-}
-
-bool Stack::IsEmpty(void)
+template <typename T>
+bool Stack<T>::IsEmpty()
 {
     return top == nullptr;
 }
+
+// Explicit Instantiation Declaration for 'Stack'
+template class Stack<int>::Stack;
+template class Stack<char>::Stack;
+template class Stack<float>::Stack;
 
 /*****************************************************************************/
 /**                                END OF FILE                              **/

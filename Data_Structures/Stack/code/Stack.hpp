@@ -1,5 +1,5 @@
-﻿/*****************************************************************************/
-/** Copyright (c) 2020, Daniel Terrazas                                     **/
+/*****************************************************************************/
+/** Copyright (c) 2021, Daniel Terrazas                                     **/
 /** ----------------------------------------------------------------------- **/
 /**                              Data Structures                            **/
 /** ----------------------------------------------------------------------- **/
@@ -42,6 +42,10 @@
 /**                                  Includes                               **/
 /*****************************************************************************/
 
+#include <iostream>
+#include <memory>
+#include <vector>
+
 /*****************************************************************************/
 /**                               Public Macros                             **/
 /*****************************************************************************/
@@ -66,34 +70,32 @@
 /**                               Public Classes                            **/
 /*****************************************************************************/
 
+template <typename T>
 class Node
 {
 public:
-    int data;
-    Node* next;
+    Node(T data);
 
-    Node();
-    Node(int x);
-
+    T data;
+    std::shared_ptr<Node<T>> next_node;
 };
 
+template <typename T>
 class Stack
 {
-private:
-    Node* top;
-
 public:
-
     Stack();
-    Stack(int array[], int size);
     ~Stack();
-    void Create(int array[], int size);
-    void Display(void);
-    void Push(int item);
-    int Pop(void);
-    int Top(void);
-    bool IsEmpty(void);
 
+    void Create(const std::vector<T> &v);
+    void Display();
+    void Push(T data);
+    void Pop();
+    T Top() const;
+    bool IsEmpty();
+
+private:
+    std::shared_ptr<Node<T>> top;
 };
 
 #endif // FILE_STACK_HPP

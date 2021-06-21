@@ -1,5 +1,5 @@
 ﻿/*****************************************************************************/
-/** Copyright (c) 2020, Daniel Terrazas                                     **/
+/** Copyright (c) 2021, Daniel Terrazas                                     **/
 /** ----------------------------------------------------------------------- **/
 /**                              Data Structures                            **/
 /** ----------------------------------------------------------------------- **/
@@ -38,7 +38,9 @@
 /**                                  Includes                               **/
 /*****************************************************************************/
 
-#include "Stack.hpp"
+#include <iostream>
+#include <vector>
+#include "Stack.h"
 
 /*****************************************************************************/
 /**                                   Macros                                **/
@@ -68,19 +70,54 @@
 /**                            Function Definitions                         **/
 /*****************************************************************************/
 
-int main(int argc, char const* argv[])
+void Test_Stack();
+
+int main(int argc, char* argv[])
 {
-    int array[] = { 10, 11, 12, 13, 14 };
-    int size = sizeof(array) / sizeof(array[0]);
+    Test_Stack();
+}
 
-    Stack stk(array, size);
-    stk.Push(50);
-    stk.Push(60);
-    stk.Display();
-    for (size_t i = 0; i < size; i++) { stk.Pop(); }
-    stk.Display();
+void Test_Stack()
+{
+    Stack<char> s_char;
+    std::vector<char> v_char = { 'e', 't', 'n', 'a', 'D' };
+    Stack<int> s_int;
+    std::vector<int> v_int = { 1, 2, 3 };
+    Stack<float> s_float;
+    std::vector<float> v_float = { 6.626070F, 3.141592F, 2.718281F };
 
-    return 0;
+    std::cout << "-------------------- Char Stack Test --------------------";
+    std::cout << std::endl;
+    s_char.Create(v_char);
+    s_char.Display();
+
+    for (int i = 0; i < 5; i++)
+    {
+        s_char.Pop();
+        s_char.Display();
+    }
+
+    std::cout << "-------------------- Int Stack Test --------------------";
+    std::cout << std::endl;
+    s_int.Create(v_int);
+    s_int.Display();
+
+    for (int i = 0; i < 4; i++)
+    {
+        s_int.Pop();
+        s_int.Display();
+    }
+
+    std::cout << "-------------------- Float Stack Test --------------------";
+    std::cout << std::endl;
+    s_float.Create(v_float);
+    s_float.Display();
+
+    for (int i = 0; i < 4; i++)
+    {
+        s_float.Pop();
+        s_float.Display();
+    }
 }
 
 /*****************************************************************************/
