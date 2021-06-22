@@ -40,7 +40,7 @@
 
 #include <iostream>
 #include <vector>
-#include "Stack.h"
+#include "Stack.hpp"
 
 /*****************************************************************************/
 /**                                   Macros                                **/
@@ -86,7 +86,7 @@ void Test_Stack()
     Stack<float> s_float;
     std::vector<float> v_float = { 6.626070F, 3.141592F, 2.718281F };
 
-    std::cout << "-------------------- Char Stack Test --------------------";
+    std::cout << "-------------------- Stack<char> Test --------------------";
     std::cout << std::endl;
     s_char.Create(v_char);
     s_char.Display();
@@ -97,7 +97,7 @@ void Test_Stack()
         s_char.Display();
     }
 
-    std::cout << "-------------------- Int Stack Test --------------------";
+    std::cout << "--------------------- Stack<int> Test --------------------";
     std::cout << std::endl;
     s_int.Create(v_int);
     s_int.Display();
@@ -108,7 +108,7 @@ void Test_Stack()
         s_int.Display();
     }
 
-    std::cout << "-------------------- Float Stack Test --------------------";
+    std::cout << "-------------------- Stack<float> Test -------------------";
     std::cout << std::endl;
     s_float.Create(v_float);
     s_float.Display();
