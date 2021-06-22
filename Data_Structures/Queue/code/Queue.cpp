@@ -1,5 +1,5 @@
 /*****************************************************************************/
-/** Copyright (c) 2020, Daniel Terrazas                                     **/
+/** Copyright (c) 2021, Daniel Terrazas                                     **/
 /** ----------------------------------------------------------------------- **/
 /**                              Data Structures                            **/
 /** ----------------------------------------------------------------------- **/
@@ -70,416 +70,272 @@
 /*****************************************************************************/
 
 /************************************ Node ***********************************/
-Node::Node()
+template <typename T>
+Node<T>::Node(T data)
 {
-    data = 0;
-    next = nullptr;
-}
-
-Node::Node(int x)
-{
-    data = x;
-    next = nullptr;
-}
-
-/*********************************** Queue ***********************************/
-Queue::Queue()
-{
-    front = rear = nullptr;
-}
-
-Queue::Queue(int array[], int size)
-{
-    Node* tmp;
-    front = rear = nullptr;
-
-    if (array == nullptr) return;
-    if (size <= 0) return;
-
-    front = new Node(array[0]);
-    rear = front;
-
-    for (int i = 1; i < size; i++)
-    {
-        tmp = new Node(array[i]);
-        rear->next = tmp;
-        rear = tmp;
-    }
-}
-
-Queue::~Queue()
-{
-    Node* ptr = front;
-
-    while (front != nullptr)
-    {
-        front = front->next;
-        delete ptr;
-        ptr = front;
-    }
-}
-
-void Queue::Create(int array[], int size)
-{
-    Node* tmp;
-
-    if (front != nullptr || rear != nullptr) return;
-    if (array == nullptr) return;
-    if (size <= 0) return;
-
-    front = new Node(array[0]);
-    rear = front;
-
-    for (int i = 1; i < size; i++)
-    {
-        tmp = new Node(array[i]);
-        rear->next = tmp;
-        rear = tmp;
-    }
-}
-
-void Queue::Display(void)
-{
-    Node* ptr = front;
-
-    if (front == nullptr)
-    {
-        std::cout << "null" << std::endl;
-        return;
-    }
-
-    std::cout << "front -> ";
-    while (ptr != nullptr)
-    {
-        std::cout << ptr->data << " -> ";
-        ptr = ptr->next;
-    }
-    std::cout << "rear" << std::endl;
-}
-
-void Queue::Enqueue(int item)
-{
-    Node* tmp = new Node(item);
-
-    if (rear == nullptr)
-    {
-        front = rear = tmp;
-    }
-    else
-    {
-        rear->next = tmp;
-        rear = tmp;
-    }
-}
-
-void Queue::Dequeue(void)
-{
-    Node* ptr = front;
-
-    if (front == nullptr) return;
-    if (front == rear)
-        rear = rear->next;
-
-    front = front->next;
-    delete ptr;
-}
-
-int Queue::GetFront(void)
-{
-    if (front == nullptr) return -1;
-    return front->data;
-}
-
-int Queue::GetRear(void)
-{
-    if (rear == nullptr) return -1;
-    return rear->data;
-}
-
-bool Queue::IsEmpty(void)
-{
-    return front == nullptr;
+    this->data = data;
 }
 
 /**************************** Double Ended Queue *****************************/
-DEQueue::DEQueue()
+template <typename T>
+DEQueue<T>::DEQueue()
 {
-    front = rear = nullptr;
+
 }
 
-DEQueue::DEQueue(int array[], int size)
+template <typename T>
+DEQueue<T>::~DEQueue()
 {
-    Node* tmp;
 
-    front = rear = nullptr;
+}
 
-    if (array == nullptr) return;
-    if (size <= 0) return;
+template <typename T>
+void DEQueue<T>::Create(const std::vector<T> &v)
+{
+    size_t size = v.size();
 
-    front = new Node(array[0]);
-    rear = front;
-
-    for (int i = 1; i < size; i++)
+    for (size_t i = 0; i < size; i++)
     {
-        tmp = new Node(array[i]);
-        rear->next = tmp;
-        rear = tmp;
+        EnqueueRear(v.at(i));
     }
 }
 
-DEQueue::~DEQueue()
+template <typename T>
+void DEQueue<T>::Display()
 {
-    Node* ptr = front;
-
-    while (ptr != nullptr)
-    {
-        front = front->next;
-        delete ptr;
-        ptr = front;
-    }
-}
-
-void DEQueue::Create(int array[], int size)
-{
-    Node* tmp;
-
-    if (front != nullptr || rear != nullptr) return;
-    if (array == nullptr) return;
-    if (size <= 0) return;
-
-    front = new Node(array[0]);
-    rear = front;
-
-    for (int i = 1; i < size; i++)
-    {
-        tmp = new Node(array[i]);
-        rear->next = tmp;
-        rear = tmp;
-    }
-}
-
-void DEQueue::Display(void)
-{
-    Node* ptr = front;
-
+    std::shared_ptr<Node<T>> ptr = front;
     if (front == nullptr)
     {
-        std::cout << "null" << std::endl;
+        std::cout << "Empty" << std::endl;
         return;
     }
 
-    std::cout << "front -> ";
+    std::cout << "Front -> ";
     while (ptr != nullptr)
     {
         std::cout << ptr->data << " -> ";
-        ptr = ptr->next;
+        ptr = ptr->next_node;
     }
-    std::cout << "rear" << std::endl;
-
+    std::cout << "Rear" << std::endl;
 }
 
-void DEQueue::EnqueueFront(int item)
+template <typename T>
+void DEQueue<T>::EnqueueFront(T data)
 {
-    Node* tmp = new Node(item);
-    tmp->next = front;
-    front = tmp;
+    std::shared_ptr<Node<T>> ptr;
 
-    if(rear == nullptr)
-        rear = front;
-}
-
-void DEQueue::EnqueueRear(int item)
-{
-    Node* tmp = new Node(item);
-
-    if (rear == nullptr)
+    if (front != nullptr)
     {
-        front = rear = tmp;
+        ptr = std::make_shared<Node<T>>(data);
+        ptr->next_node = front;
+        front = ptr;
     }
     else
     {
-        rear->next = tmp;
-        rear = tmp;
+        front = std::make_shared<Node<T>>(data);
+        rear = front;
     }
 }
 
-void DEQueue::DequeueFront(void)
+template <typename T>
+void DEQueue<T>::EnqueueRear(T data)
 {
-    Node* ptr = front;
+    std::shared_ptr<Node<T>> ptr;
 
-    if (front == nullptr) return;
-    if (rear == front)
-        rear = rear->next;
-
-    front = front->next;
-    delete ptr;
+    if (rear != nullptr)
+    {
+        ptr = std::make_shared<Node<T>>(data);
+        rear->next_node = ptr;
+        rear = ptr;
+    }
+    else
+    {
+        rear = std::make_shared<Node<T>>(data);
+        front = rear;
+    }
 }
 
-void DEQueue::DequeueRear(void)
+template <typename T>
+void DEQueue<T>::DequeueFront()
 {
-    Node* ptr = front;
+    if (front == nullptr || rear == nullptr) { return; }
 
-    if (front == nullptr) return;
-    if (rear == front)
+    if (front == rear)
     {
         front = rear = nullptr;
-        delete ptr;
     }
     else
     {
-        while (ptr->next != rear)
-        {
-            ptr = ptr->next;
-        }
-
-        rear = ptr;
-        rear->next = nullptr;
-        delete ptr->next;
+        front = front->next_node;
     }
 }
 
-int DEQueue::GetFront(void)
+template <typename T>
+void DEQueue<T>::DequeueRear()
 {
-    if (front == nullptr) return -1;
-    return front->data;
+    std::shared_ptr<Node<T>> ptr = front;
+    if (front == nullptr || rear == nullptr) { return; }
+    
+    if (rear == front)
+    {
+        rear = front = nullptr;
+    }
+    else
+    {
+        while (ptr->next_node != rear)
+        {
+            ptr = ptr->next_node;
+        }
+
+        ptr->next_node = nullptr;
+        rear = ptr;
+    }
 }
 
-int DEQueue::GetRear(void)
+template <typename T>
+T DEQueue<T>::GetFront()
 {
-    if (rear == nullptr) return -1;
-    return rear->data;
+    T data = T();
+    
+    if (front != nullptr)
+    {
+        data = front->data;
+    }
+
+    return data;
 }
 
-bool DEQueue::IsEmpty(void)
+template <typename T>
+T DEQueue<T>::GetRear()
 {
-    return front == nullptr;
+    T data = T();
+
+    if (rear != nullptr)
+    {
+        data = rear->data;
+    }
+
+    return data;
+}
+
+template <typename T>
+bool DEQueue<T>::IsEmpty()
+{
+    return (front == nullptr) || (rear == nullptr);
 }
 
 /****************************** Priority Queue *******************************/
-PriorityQueue::PriorityQueue()
+template <typename T>
+PriorityQueue<T>::PriorityQueue(bool priority)
 {
-    front = rear = nullptr;
-    priority = false;
-}
-
-PriorityQueue::PriorityQueue(int array[], int size, bool priority)
-{
-
-    front = rear = nullptr;
     this->priority = priority;
+}
 
-    if (front != nullptr) return;
-    if (array == nullptr) return;
-    if (size <= 0) return;
+template <typename T>
+PriorityQueue<T>::~PriorityQueue()
+{
 
-    front = new Node(array[0]);
-    rear = front;
+}
 
-    for (int i = 1; i < size; i++)
+template <typename T>
+void PriorityQueue<T>::Create(const std::vector<T> &v)
+{
+    size_t size = v.size();
+
+    for (size_t i = 0; i < size; i++)
     {
-        Enqueue(array[i]);
+        Enqueue(v.at(i));
     }
 }
 
-PriorityQueue::~PriorityQueue()
+template <typename T>
+void PriorityQueue<T>::Display()
 {
-    Node* ptr = front;
-
-    while (front != nullptr)
-    {
-        front = front->next;
-        delete ptr;
-        ptr = front;
-    }
-}
-
-void PriorityQueue::Display(void)
-{
-    Node* ptr = front;
+    std::shared_ptr<Node<T>> ptr = front;
 
     if (front == nullptr)
     {
-        std::cout << "null" << std::endl;
-        return;
+        std::cout << "Empty" << std::endl;
     }
 
-    std::cout << "front -> ";
+    std::cout << "Front -> ";
     while (ptr != nullptr)
     {
         std::cout << ptr->data << " -> ";
-        ptr = ptr->next;
+        ptr = ptr->next_node;
     }
-    std::cout << "rear" << std::endl;
+    std::cout << "Rear" << std::endl;
 }
 
-void PriorityQueue::Enqueue(int item)
+template <typename T>
+void PriorityQueue<T>::Enqueue(T data)
 {
-    Node* tmp, * aux_ptr, * ptr;
-    ptr = aux_ptr = front;
-
-    tmp = new Node(item);
+    std::shared_ptr<Node<T>> qtr, ptr = front;
+    std::shared_ptr<Node<T>> aux_ptr = std::make_shared<Node<T>>(data);
 
     if (priority == false)
     {
-        while (ptr !=nullptr && item > ptr->data)
+        while (ptr != nullptr)
         {
-            aux_ptr = ptr;
-            ptr = ptr->next;
+            qtr = ptr;
+            ptr = ptr->next_node;
         }
     }
     else
     {
-        while (ptr !=nullptr && item < ptr->data)
+        while (ptr != nullptr && data > ptr->data)
         {
-            aux_ptr = ptr;
-            ptr = ptr->next;
+            qtr = ptr;
+            ptr = ptr->next_node;
         }
     }
 
     if (ptr == front)
     {
-        tmp->next = front;
-        front = tmp;
+        aux_ptr->next_node = front;
+        front = aux_ptr;
     }
     else
     {
-        tmp->next = aux_ptr->next;
-        aux_ptr->next = tmp;
-
-        if (aux_ptr == rear)
-            rear = tmp;
+        aux_ptr->next_node = qtr->next_node;
+        qtr->next_node = aux_ptr;
     }
 }
 
-void PriorityQueue::Dequeue(void)
+template <typename T>
+void PriorityQueue<T>::Dequeue()
 {
-    Node* ptr = front;
-
-    if (front == nullptr) return;
-    if (front == rear)
-        rear = rear->next;
-
-    front = front->next;
-    delete ptr;
+    if (front == nullptr) { return; }
+    front = front->next_node;
 }
 
-int PriorityQueue::GetFront(void)
+template <typename T>
+T PriorityQueue<T>::GetFront()
 {
-    if (front == nullptr) return -1;
-    return front->data;
+    T data = T();
+
+    if (front != nullptr)
+    {
+        data = front->data;
+    }
+
+    return data;
 }
 
-int PriorityQueue::GetRear(void)
-{
-    if (rear == nullptr) return -1;
-    return rear->data;
-}
-
-bool PriorityQueue::IsEmpty(void)
+template <typename T>
+bool PriorityQueue<T>::IsEmpty()
 {
     return front == nullptr;
 }
 
+// Explicit Initialization Declaration
+template class DEQueue<int>::DEQueue;
+template class DEQueue<char>::DEQueue;
+template class DEQueue<float>::DEQueue;
+
+template class PriorityQueue<int>::PriorityQueue;
+template class PriorityQueue<char>::PriorityQueue;
+template class PriorityQueue<float>::PriorityQueue;
 
 /*****************************************************************************/
 /**                                END OF FILE                              **/

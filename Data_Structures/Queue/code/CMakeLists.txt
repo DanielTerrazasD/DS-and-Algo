@@ -4,6 +4,6 @@
 cmake_minimum_required (VERSION 3.8)
 
 # Add source to this project's executable.
-add_executable (Stack "main.cpp" "Queue.cpp" "Queue.hpp")
+add_executable (Queue "main.cpp" "Queue.cpp" "Queue.hpp")
 
 # TODO: Add tests and install targets if needed.

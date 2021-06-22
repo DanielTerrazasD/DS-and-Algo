@@ -1,5 +1,5 @@
 ﻿/*****************************************************************************/
-/** Copyright (c) 2020, Daniel Terrazas                                     **/
+/** Copyright (c) 2021, Daniel Terrazas                                     **/
 /** ----------------------------------------------------------------------- **/
 /**                              Data Structures                            **/
 /** ----------------------------------------------------------------------- **/
@@ -42,6 +42,10 @@
 /**                                  Includes                               **/
 /*****************************************************************************/
 
+#include <iostream>
+#include <memory>
+#include <vector>
+
 /*****************************************************************************/
 /**                               Public Macros                             **/
 /*****************************************************************************/
@@ -66,86 +70,59 @@
 /**                               Public Classes                            **/
 /*****************************************************************************/
 
+/************************************ Node ***********************************/
+template <typename T>
 class Node
 {
 public:
-    int data;
-    Node* next;
+    Node(T data);
 
-    Node();
-    Node(int x);
+    T data;
+    std::shared_ptr<Node<T>> next_node;
 };
 
-class Queue
-{
-private:
-    Node* front;
-    Node* rear;
-
-public:
-
-    Queue();
-    Queue(int array[], int size);
-    ~Queue();
-
-    void Create(int array[], int size);
-    void Display(void);
-    void Enqueue(int item);
-    void Dequeue(void);
-
-    int GetFront(void);
-    int GetRear(void);
-    bool IsEmpty(void);
-};
-
-/* Double Ended Queue */
+/**************************** Double Ended Queue *****************************/
+template <typename T>
 class DEQueue
 {
 private:
-    Node* front;
-    Node* rear;
+    std::shared_ptr<Node<T>> front;
+    std::shared_ptr<Node<T>> rear;
 
 public:
-
     DEQueue();
-    DEQueue(int array[], int size);
     ~DEQueue();
 
-    void Create(int array[], int size);
-    void Display(void);
-    void EnqueueFront(int item);
-    void EnqueueRear(int item);
-    void DequeueFront(void);
-    void DequeueRear(void);
-
-    int GetFront(void);
-    int GetRear(void);
-    bool IsEmpty(void);
+    void Create(const std::vector<T> &v);
+    void Display();
+    void EnqueueFront(T data);
+    void EnqueueRear(T data);
+    void DequeueFront();
+    void DequeueRear();
+    T GetFront();
+    T GetRear();
+    bool IsEmpty();
 };
 
+/****************************** Priority Queue *******************************/
+template <typename T>
 class PriorityQueue
 {
 private:
-    Node* front;
-    Node* rear;
+    std::shared_ptr<Node<T>> front;
     bool priority;
 
 public:
-    PriorityQueue();
-    PriorityQueue(int array[], int size, bool priority=false);
+    PriorityQueue(bool priority);
     ~PriorityQueue();
 
-    void Create(int array[], int size);
-    void Display(void);
-    void Enqueue(int item);
-    void Dequeue(void);
-
-    int GetFront(void);
-    int GetRear(void);
-    bool IsEmpty(void);
+    void Create(const std::vector<T> &v);
+    void Display();
+    void Enqueue(T data);
+    void Dequeue();
+    T GetFront();
+    bool IsEmpty();
 };
-
-
 
 #endif // FILE_QUEUE_HPP
 
